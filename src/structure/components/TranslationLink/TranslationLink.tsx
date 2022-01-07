@@ -73,8 +73,9 @@ export const TranslationLink: React.FunctionComponent<IProps> = ({
   const handleClick = React.useCallback(async (id: string) => {
     if (!existing) {
       const fieldName = config.fieldNames.lang;
+      const { slug, ...baseDocumentWOSlug } = baseDocument ? baseDocument : { slug: '' };
       await getSanityClient().createIfNotExists({
-        ...(baseDocument ? baseDocument : {}),
+        ...(baseDocument ? baseDocumentWOSlug : {}),
         _id: `drafts.${id}`,
         _type: schema.name,
         [fieldName]: lang.name,
