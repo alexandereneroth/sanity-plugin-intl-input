@@ -75,7 +75,12 @@ export const TranslationLink: React.FunctionComponent<IProps> = ({
       const fieldName = config.fieldNames.lang;
       const { dontTranslateFields, ...baseDocumentFull } = baseDocument ? baseDocument : { dontTranslateFields: [] };
       const baseDocumentWithoutDontTranslateFields = {
-        ...baseDocumentFull.filter((field) => !dontTranslateFields.includes(field.name)),
+        ...Object.keys(baseDocumentFull)
+          .reduce((acc, key) => {
+            if(dontTranslateFields.includes(baseDocumentFull[key].name))
+              return acc
+            return { ...acc, [key]: baseDocumentFull[key] }
+          }, {}),
       };
       await getSanityClient().createIfNotExists({
         ...(baseDocument ? baseDocumentWithoutDontTranslateFields : {}),
