@@ -76,6 +76,7 @@ export const TranslationLink: React.FunctionComponent<IProps> = ({
       const { dontTranslateFields, ...baseDocumentFull } = baseDocument ? baseDocument : { dontTranslateFields: [] };
       const baseDocumentWithoutDontTranslateFields = Object.keys(baseDocumentFull)
           .reduce((acc, key) => {
+            if(key.startsWith('_')) return acc
             if(dontTranslateFields && dontTranslateFields.indexOf(key) !== -1)
               return acc
             acc[key] = baseDocumentFull[key]
